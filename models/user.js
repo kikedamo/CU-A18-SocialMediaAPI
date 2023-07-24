@@ -35,4 +35,4 @@ UserSchema.virtual("FriendCounts").get(function(){
     return this.Friends.length
 });
 
-model.exports = User;
+module.exports = User;
