@@ -59,14 +59,16 @@ const UserController = {
     },
     AddFriend(req,res){
         console.log("You're In The Process Of Adding A Friend.");
+        console.log(req.params.UserId)
+        console.log(req.params.UserId)
         User.findOneAndUpdate(
             {_id: req.params.UserId},
-            {$addToSet:{friend: req.params.FriendId}},
+            {$addToSet:{Friends: req.params.FriendId}},
             {runValidators: true, new:true,}
         )
         .then((User) =>
         !User
-        ?res.status(404).json({ Message: 'There is no user with that ID.' })
+        ?res.status(404).json({ Message: 'There is no user with that ID.'})
         :res.json(User)
         )
         .catch(err=>{res.status(400).json(err)});
@@ -75,7 +77,7 @@ const UserController = {
         console.log("You're In The Process Of Deleting A Friend.");
         User.findOneAndUpdate(
             {_id: req.params.UserId},
-            {$pull:{friend: req.params.FriendId}},
+            {$pull:{Friends: req.params.FriendId}},
             {runValidators: true, new:true,}
         )
         .then((User) =>
