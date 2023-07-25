@@ -14,7 +14,7 @@ const UserController = {
         })
     },
     GetOneUser(req,res){
-        User.findOne({_id: req.params.UserId})
+        User.findOne({_id: req.params.id})
         .select('-_v')
         .then(async (User)=>
             !User
