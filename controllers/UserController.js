@@ -33,7 +33,7 @@ const UserController = {
     },
     UpdateUser(req, res) {
         User.findOneAndUpdate(
-            { _id: req.params.UserId },
+            { _id: req.params.id },
             { $set: req.body },
             { runValidators: true, new: true }
         )
@@ -48,8 +48,8 @@ const UserController = {
         })
     },
     DeleteUser(req,res){
-        console.log(req.params.UserId, User)
-        User.findOneAndDelete({_id: req.params.UserId})
+        console.log(req.params.id, User)
+        User.findOneAndDelete({_id: req.params.id})
         .then((User) =>
             !User
             ?res.status(404).json({Message:'There is 0 User with that Id.'})
@@ -61,7 +61,7 @@ const UserController = {
     AddFriend(req,res){
         console.log("You're In The Process Of Adding A Friend.");
         User.findOneAndUpdate(
-            {_id: req.params.UserId},
+            {_id: req.params.id},
             {$addToSet:{Friends: req.params.FriendId}},
             {runValidators: true, new:true,}
         )
@@ -75,7 +75,7 @@ const UserController = {
     DeleteFriend(req,res){
         console.log("You're In The Process Of Deleting A Friend.");
         User.findOneAndUpdate(
-            {_id: req.params.UserId},
+            {_id: req.params.id},
             {$pull:{Friends: req.params.FriendId}},
             {runValidators: true, new:true,}
         )
