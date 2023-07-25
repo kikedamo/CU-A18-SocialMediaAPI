@@ -31,11 +31,11 @@ const UserController = {
         .then((user) => res.json(user))
         .catch((err) => res.status(400).json(err));
     },
-    UpdateUser(req,res){
+    UpdateUser(req, res) {
         User.findOneAndUpdate(
-            {_id: req.params.UserId},
-            {$et: req.body},
-            {runValidators: true, new:true,}
+            { _id: req.params.UserId },
+            { $set: req.body },
+            { runValidators: true, new: true }
         )
         .then((User) =>
         !User
@@ -48,19 +48,18 @@ const UserController = {
         })
     },
     DeleteUser(req,res){
+        console.log(req.params.UserId, User)
         User.findOneAndDelete({_id: req.params.UserId})
         .then((User) =>
             !User
             ?res.status(404).json({Message:'There is 0 User with that Id.'})
-            :Thought.DeleteMany({_id:{$in: User.Thought}})
+            :Thought.deleteMany({_id:{$in: User.Thought}})
         )
         .then(() => res.json({Message:"User & User's Thoughts Have Been Deleted"}))
         .catch(err=>{res.status(400).json(err)});
     },
     AddFriend(req,res){
         console.log("You're In The Process Of Adding A Friend.");
-        console.log(req.params.UserId)
-        console.log(req.params.UserId)
         User.findOneAndUpdate(
             {_id: req.params.UserId},
             {$addToSet:{Friends: req.params.FriendId}},
